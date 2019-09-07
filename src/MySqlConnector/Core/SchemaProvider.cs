@@ -13,34 +13,34 @@ namespace MySqlConnector.Core
 				{
 						m_connection = connection;
 						m_schemaCollections = new Dictionary<string, Action<DataTable>>
-			{
-				{ "MetaDataCollections", FillMetadataCollections },
-				{ "DataTypes", FillDataTypes },
-				{ "Procedures", FillProcedures },
-				{ "ReservedWords", FillReservedWords },
-				{ "Tables", FillTables },
-				{ "Columns", FillColumns },
-				{ "Foreign Keys", FillForeignKeys },
-				{ "IndexColumns", FillIndexColumns},
-				{ "Indexes", FillIndexes},
-			};
+						{
+								{ "MetaDataCollections", FillMetadataCollections },
+								{ "DataTypes", FillDataTypes },
+								{ "Procedures", FillProcedures },
+								{ "ReservedWords", FillReservedWords },
+								{ "Tables", FillTables },
+								{ "Columns", FillColumns },
+								{ "Foreign Keys", FillForeignKeys },
+								{ "IndexColumns", FillIndexColumns},
+								{ "Indexes", FillIndexes},
+						};
 				}
 
 				public SchemaProvider(MySqlConnection connection, string[] args)
 				{
-						m_connection = connection;
-						m_schemaCollections2 = new Dictionary<string, Action<DataTable, string[]>>
-			{
-				//{ "MetaDataCollections", FillMetadataCollections },
-				//{ "DataTypes", FillDataTypes },
-				//{ "Procedures", FillProcedures },
-				//{ "ReservedWords", FillReservedWords },
-				{ "Tables", FillTables },
+					m_connection = connection;
+					m_schemaCollections2 = new Dictionary<string, Action<DataTable, string[]>>
+					{
+                //{ "MetaDataCollections", FillMetadataCollections },
+                //{ "DataTypes", FillDataTypes },
+                //{ "Procedures", FillProcedures },
+                //{ "ReservedWords", FillReservedWords },
+                { "Tables", FillTables },
 				{ "Columns", FillColumns },
 				{ "Foreign Keys", FillForeignKeys },
 				{ "IndexColumns", FillIndexColumns},
 				{ "Indexes", FillIndexes},
-			};
+					};
 				}
 
 
@@ -69,10 +69,10 @@ namespace MySqlConnector.Core
 				private void FillMetadataCollections(DataTable dataTable)
 				{
 						dataTable.Columns.AddRange(new[] {
-				new DataColumn("CollectionName", typeof(string)),
-				new DataColumn("NumberOfRestrictions", typeof(int)),
-				new DataColumn("NumberOfIdentifierParts", typeof(int))
-			});
+								new DataColumn("CollectionName", typeof(string)),
+								new DataColumn("NumberOfRestrictions", typeof(int)),
+								new DataColumn("NumberOfIdentifierParts", typeof(int))
+						});
 
 						foreach (var collectionName in m_schemaCollections.Keys)
 								dataTable.Rows.Add(collectionName, 0, 0);
@@ -82,30 +82,30 @@ namespace MySqlConnector.Core
 				{
 						dataTable.Columns.AddRange(new[]
 						{
-				new DataColumn("TypeName", typeof(string)),
-				new DataColumn("ProviderDbType", typeof(int)),
-				new DataColumn("ColumnSize", typeof(long)),
-				new DataColumn("CreateFormat", typeof(string)),
-				new DataColumn("CreateParameters", typeof(string)),
-				new DataColumn("DataType", typeof(string)),
-				new DataColumn("IsAutoIncrementable", typeof(bool)),
-				new DataColumn("IsBestMatch", typeof(bool)),
-				new DataColumn("IsCaseSensitive", typeof(bool)),
-				new DataColumn("IsFixedLength", typeof(bool)),
-				new DataColumn("IsFixedPrecisionScale", typeof(bool)),
-				new DataColumn("IsLong", typeof(bool)),
-				new DataColumn("IsNullable", typeof(bool)),
-				new DataColumn("IsSearchable", typeof(bool)),
-				new DataColumn("IsSearchableWithLike", typeof(bool)),
-				new DataColumn("IsUnsigned", typeof(bool)),
-				new DataColumn("MaximumScale", typeof(short)),
-				new DataColumn("MinimumScale", typeof(short)),
-				new DataColumn("IsConcurrencyType", typeof(bool)),
-				new DataColumn("IsLiteralSupported", typeof(bool)),
-				new DataColumn("LiteralPrefix", typeof(string)),
-				new DataColumn("LiteralSuffix", typeof(string)),
-				new DataColumn("NativeDataType", typeof(string)),
-			});
+								new DataColumn("TypeName", typeof(string)),
+								new DataColumn("ProviderDbType", typeof(int)),
+								new DataColumn("ColumnSize", typeof(long)),
+								new DataColumn("CreateFormat", typeof(string)),
+								new DataColumn("CreateParameters", typeof(string)),
+								new DataColumn("DataType", typeof(string)),
+								new DataColumn("IsAutoIncrementable", typeof(bool)),
+								new DataColumn("IsBestMatch", typeof(bool)),
+								new DataColumn("IsCaseSensitive", typeof(bool)),
+								new DataColumn("IsFixedLength", typeof(bool)),
+								new DataColumn("IsFixedPrecisionScale", typeof(bool)),
+								new DataColumn("IsLong", typeof(bool)),
+								new DataColumn("IsNullable", typeof(bool)),
+								new DataColumn("IsSearchable", typeof(bool)),
+								new DataColumn("IsSearchableWithLike", typeof(bool)),
+								new DataColumn("IsUnsigned", typeof(bool)),
+								new DataColumn("MaximumScale", typeof(short)),
+								new DataColumn("MinimumScale", typeof(short)),
+								new DataColumn("IsConcurrencyType", typeof(bool)),
+								new DataColumn("IsLiteralSupported", typeof(bool)),
+								new DataColumn("LiteralPrefix", typeof(string)),
+								new DataColumn("LiteralSuffix", typeof(string)),
+								new DataColumn("NativeDataType", typeof(string)),
+						});
 
 						var clrTypes = new HashSet<string>();
 						foreach (var columnType in TypeMapper.Instance.GetColumnTypeMetadata())
@@ -121,43 +121,43 @@ namespace MySqlConnector.Core
 								var clrType = columnType.DbTypeMapping.ClrType;
 								var clrTypeName = clrType.ToString();
 								var dataTypeName = mySqlDbType == MySqlDbType.Guid ? "GUID" :
-									mySqlDbType == MySqlDbType.Bool ? "BOOL" : columnType.DataTypeName;
+										mySqlDbType == MySqlDbType.Bool ? "BOOL" : columnType.DataTypeName;
 								var isAutoIncrementable = mySqlDbType == MySqlDbType.Byte || mySqlDbType == MySqlDbType.Int16 || mySqlDbType == MySqlDbType.Int24 || mySqlDbType == MySqlDbType.Int32 || mySqlDbType == MySqlDbType.Int64 ||
-									mySqlDbType == MySqlDbType.UByte || mySqlDbType == MySqlDbType.UInt16 || mySqlDbType == MySqlDbType.UInt24 || mySqlDbType == MySqlDbType.UInt32 || mySqlDbType == MySqlDbType.UInt64;
+										mySqlDbType == MySqlDbType.UByte || mySqlDbType == MySqlDbType.UInt16 || mySqlDbType == MySqlDbType.UInt24 || mySqlDbType == MySqlDbType.UInt32 || mySqlDbType == MySqlDbType.UInt64;
 								var isBestMatch = clrTypes.Add(clrTypeName);
 								var isFixedLength = isAutoIncrementable ||
-									mySqlDbType == MySqlDbType.Date || mySqlDbType == MySqlDbType.DateTime || mySqlDbType == MySqlDbType.Time || mySqlDbType == MySqlDbType.Timestamp ||
-									mySqlDbType == MySqlDbType.Double || mySqlDbType == MySqlDbType.Float || mySqlDbType == MySqlDbType.Year || mySqlDbType == MySqlDbType.Guid || mySqlDbType == MySqlDbType.Bool;
+										mySqlDbType == MySqlDbType.Date || mySqlDbType == MySqlDbType.DateTime || mySqlDbType == MySqlDbType.Time || mySqlDbType == MySqlDbType.Timestamp ||
+										mySqlDbType == MySqlDbType.Double || mySqlDbType == MySqlDbType.Float || mySqlDbType == MySqlDbType.Year || mySqlDbType == MySqlDbType.Guid || mySqlDbType == MySqlDbType.Bool;
 								var isFixedPrecisionScale = isFixedLength ||
-									mySqlDbType == MySqlDbType.Bit || mySqlDbType == MySqlDbType.NewDecimal;
+										mySqlDbType == MySqlDbType.Bit || mySqlDbType == MySqlDbType.NewDecimal;
 								var isLong = mySqlDbType == MySqlDbType.Blob || mySqlDbType == MySqlDbType.MediumBlob || mySqlDbType == MySqlDbType.LongBlob;
 
 								// map ColumnTypeMetadata to the row for this data type
 								var createFormatParts = columnType.CreateFormat.Split(';');
 								dataTable.Rows.Add(
-									dataTypeName,
-									(int) mySqlDbType,
-									columnType.ColumnSize,
-									createFormatParts[0],
-									createFormatParts.Length == 1 ? null : createFormatParts[1],
-									clrTypeName,
-									isAutoIncrementable,
-									isBestMatch,
-									false,
-									isFixedLength,
-									isFixedPrecisionScale,
-									isLong,
-									true,
-									clrType != typeof(byte[]),
-									clrType == typeof(string),
-									columnType.IsUnsigned,
-									DBNull.Value,
-									DBNull.Value,
-									DBNull.Value,
-									true,
-									DBNull.Value,
-									DBNull.Value,
-									null
+										dataTypeName,
+										(int) mySqlDbType,
+										columnType.ColumnSize,
+										createFormatParts[0],
+										createFormatParts.Length == 1 ? null : createFormatParts[1],
+										clrTypeName,
+										isAutoIncrementable,
+										isBestMatch,
+										false,
+										isFixedLength,
+										isFixedPrecisionScale,
+										isLong,
+										true,
+										clrType != typeof(byte[]),
+										clrType == typeof(string),
+										columnType.IsUnsigned,
+										DBNull.Value,
+										DBNull.Value,
+										DBNull.Value,
+										true,
+										DBNull.Value,
+										DBNull.Value,
+										null
 								);
 						}
 				}
@@ -166,27 +166,27 @@ namespace MySqlConnector.Core
 				{
 						dataTable.Columns.AddRange(new[]
 						{
-				new DataColumn("SPECIFIC_NAME", typeof(string)),
-				new DataColumn("ROUTINE_CATALOG", typeof(string)),
-				new DataColumn("ROUTINE_SCHEMA", typeof(string)),
-				new DataColumn("ROUTINE_NAME", typeof(string)),
-				new DataColumn("ROUTINE_TYPE", typeof(string)),
-				new DataColumn("DTD_IDENTIFIER", typeof(string)),
-				new DataColumn("ROUTINE_BODY", typeof(string)),
-				new DataColumn("ROUTINE_DEFINITION", typeof(string)),
-				new DataColumn("EXTERNAL_NAME", typeof(string)),
-				new DataColumn("EXTERNAL_LANGUAGE", typeof(string)),
-				new DataColumn("PARAMETER_STYLE", typeof(string)),
-				new DataColumn("IS_DETERMINISTIC", typeof(string)),
-				new DataColumn("SQL_DATA_ACCESS", typeof(string)),
-				new DataColumn("SQL_PATH", typeof(string)),
-				new DataColumn("SECURITY_TYPE", typeof(string)),
-				new DataColumn("CREATED", typeof(DateTime)),
-				new DataColumn("LAST_ALTERED", typeof(DateTime)),
-				new DataColumn("SQL_MODE", typeof(string)),
-				new DataColumn("ROUTINE_COMMENT", typeof(string)),
-				new DataColumn("DEFINER", typeof(string)),
-			});
+								new DataColumn("SPECIFIC_NAME", typeof(string)),
+								new DataColumn("ROUTINE_CATALOG", typeof(string)),
+								new DataColumn("ROUTINE_SCHEMA", typeof(string)),
+								new DataColumn("ROUTINE_NAME", typeof(string)),
+								new DataColumn("ROUTINE_TYPE", typeof(string)),
+								new DataColumn("DTD_IDENTIFIER", typeof(string)),
+								new DataColumn("ROUTINE_BODY", typeof(string)),
+								new DataColumn("ROUTINE_DEFINITION", typeof(string)),
+								new DataColumn("EXTERNAL_NAME", typeof(string)),
+								new DataColumn("EXTERNAL_LANGUAGE", typeof(string)),
+								new DataColumn("PARAMETER_STYLE", typeof(string)),
+								new DataColumn("IS_DETERMINISTIC", typeof(string)),
+								new DataColumn("SQL_DATA_ACCESS", typeof(string)),
+								new DataColumn("SQL_PATH", typeof(string)),
+								new DataColumn("SECURITY_TYPE", typeof(string)),
+								new DataColumn("CREATED", typeof(DateTime)),
+								new DataColumn("LAST_ALTERED", typeof(DateTime)),
+								new DataColumn("SQL_MODE", typeof(string)),
+								new DataColumn("ROUTINE_COMMENT", typeof(string)),
+								new DataColumn("DEFINER", typeof(string)),
+						});
 
 						Action close = null;
 						if (m_connection.State != ConnectionState.Open)
@@ -228,7 +228,7 @@ namespace MySqlConnector.Core
 								command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='" + m_connection.Database + "';";
 								;
 								using (var reader = command.ExecuteReader())
-								{										
+								{
 										dataTable.Load(reader);
 								}
 						}
@@ -249,7 +249,7 @@ namespace MySqlConnector.Core
 						using (var command = m_connection.CreateCommand())
 						{
 								//command.CommandText = "SELECT " + string.Join(", ", dataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName)) + " FROM INFORMATION_SCHEMA.TABLES;";
-								command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE 1=1 ";
+								command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='" + m_connection.Database + "' ";
 
 								for (int i = 0; i < args.Length; i++)
 								{
@@ -262,9 +262,7 @@ namespace MySqlConnector.Core
 										case 0:
 												command.CommandText += " and TABLE_CATALOG='" + args[i] + "'";
 												break;
-										case 1:
-												command.CommandText += " and TABLE_SCHEMA='" + args[i] + "'";
-												break;
+										
 										case 2:
 												command.CommandText += " and TABLE_NAME='" + args[i] + "'";
 												break;
@@ -292,7 +290,7 @@ namespace MySqlConnector.Core
 
 				private void FillColumns(DataTable dataTable)
 				{
-						
+
 						Action close = null;
 						if (m_connection.State != ConnectionState.Open)
 						{
@@ -334,7 +332,7 @@ namespace MySqlConnector.Core
 						{
 
 								//command.CommandText = "SELECT " + string.Join(", ", dataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName)) + " FROM INFORMATION_SCHEMA.COLUMNS;";
-								command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS  WHERE 1=1 ";
+								command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS  WHERE  TABLE_SCHEMA='" + m_connection.Database + "' ";
 								for (int i = 0; i < args.Length; i++)
 								{
 										if (args[i] == null)
@@ -344,16 +342,14 @@ namespace MySqlConnector.Core
 										switch (i)
 										{
 										case 0:
-												command.CommandText += " and TABLE_CATALOG='" + args[0] + "'";
+												command.CommandText += " and TABLE_CATALOG='" + args[i] + "'";
 												break;
-										case 1:
-												command.CommandText += " and TABLE_SCHEMA='" + args[1] + "'";
-												break;
+										
 										case 2:
-												command.CommandText += " and TABLE_NAME='" + args[2] + "'";
+												command.CommandText += " and TABLE_NAME='" + args[i] + "'";
 												break;
 										case 3:
-												command.CommandText += " and COLUMN_NAME='" + args[2] + "'";
+												command.CommandText += " and COLUMN_NAME='" + args[i] + "'";
 												break;
 										default:
 												break;
@@ -376,7 +372,7 @@ namespace MySqlConnector.Core
 
 				private void FillForeignKeys(DataTable dataTable)
 				{
-						
+
 						Action close = null;
 						if (m_connection.State != ConnectionState.Open)
 						{
@@ -417,7 +413,7 @@ namespace MySqlConnector.Core
 						using (var command = m_connection.CreateCommand())
 						{
 								//command.CommandText = "SELECT " + string.Join(", ", dataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName)) + " FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE;";
-								command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE  WHERE 1=1 ";
+								command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE  WHERE CONSTRAINT_SCHEMA='" + m_connection.Database + "' ";
 								for (int i = 0; i < args.Length; i++)
 								{
 										if (args[i] == null)
@@ -429,9 +425,7 @@ namespace MySqlConnector.Core
 										case 0:
 												command.CommandText += " and CONSTRAINT_CATALOG='" + args[i] + "'";
 												break;
-										case 1:
-												command.CommandText += " and CONSTRAINT_SCHEMA='" + args[i] + "'";
-												break;
+										
 										case 2:
 												command.CommandText += " and TABLE_NAME='" + args[i] + "'";
 												break;
@@ -502,7 +496,7 @@ namespace MySqlConnector.Core
 						using (var command = m_connection.CreateCommand())
 						{
 								//command.CommandText = "SELECT " + string.Join(", ", dataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName)) + " FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE;";
-								command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE  WHERE 1=1 ";
+								command.CommandText = "SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE  WHERE TABLE_SCHEMA='" + m_connection.Database + "' ";
 								for (int i = 0; i < args.Length; i++)
 								{
 										if (args[i] == null)
@@ -514,9 +508,7 @@ namespace MySqlConnector.Core
 										case 0:
 												command.CommandText += " and TABLE_CATALOG='" + args[i] + "'";
 												break;
-										case 1:
-												command.CommandText += " and TABLE_SCHEMA='" + args[i] + "'";
-												break;
+										
 										case 2:
 												command.CommandText += " and TABLE_NAME='" + args[i] + "'";
 												break;
@@ -541,7 +533,7 @@ namespace MySqlConnector.Core
 
 				private void FillIndexes(DataTable dataTable)
 				{
-						
+
 						Action close = null;
 						if (m_connection.State != ConnectionState.Open)
 						{
@@ -554,22 +546,22 @@ namespace MySqlConnector.Core
 
 								//command.CommandText = "SELECT " + string.Join(", ", dataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName)) + " FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE;";
 								command.CommandText = "SELECT " +
-														" '' INDEX_CATALOG, " +
-														" INDEX_SCHEMA,    " +
-														" INDEX_NAME, " +
-														" TABLE_NAME, " +
-														" (case NON_UNIQUE " +
-														"	when 0 then TRUE " +
-														"  else FALSE " +
-														" 	  end) as 'UNIQUE', " +
-														" (case INDEX_NAME " +
-														"  When 'PRIMARY' then TRUE " +
-														" else FALSE " +
-																											" end) as 'PRIMARY', " +
-													 " INDEX_TYPE TYPE, " +
-													 " '' COMMENT " +
-													 " FROM    INFORMATION_SCHEMA.STATISTICS " +
-													 " WHERE INDEX_SCHEMA='" + m_connection.Database + "'";
+																				" '' INDEX_CATALOG, " +
+																				" INDEX_SCHEMA,    " +
+																				" INDEX_NAME, " +
+																				" TABLE_NAME, " +
+																				" (case NON_UNIQUE " +
+																				"	when 0 then TRUE " +
+																				"  else FALSE " +
+																				" 	  end) as 'UNIQUE', " +
+																				" (case INDEX_NAME " +
+																				"  When 'PRIMARY' then TRUE " +
+																				" else FALSE " +
+																																														" end) as 'PRIMARY', " +
+																		 " INDEX_TYPE TYPE, " +
+																		 " '' COMMENT " +
+																		 " FROM    INFORMATION_SCHEMA.STATISTICS " +
+																		 " WHERE INDEX_SCHEMA='" + m_connection.Database + "'";
 								using (var reader = command.ExecuteReader())
 								{
 										//while (reader.Read())
@@ -602,21 +594,21 @@ namespace MySqlConnector.Core
 
 								//command.CommandText = "SELECT " + string.Join(", ", dataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName)) + " FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE;";
 								command.CommandText = "SELECT " +
-														" '' INDEX_CATALOG, " +
-														" INDEX_SCHEMA,    " +
-														" INDEX_NAME, " +
-														" TABLE_NAME, " +
-														" (case NON_UNIQUE " +
-														"	when 0 then TRUE " +
-														"  else FALSE " +
-														" 	  end) as 'UNIQUE', " +
-														" (case INDEX_NAME " +
-														"  When 'PRIMARY' then TRUE " +
-														" else FALSE " +
-														" end) as 'PRIMARY', " +
-													 " INDEX_TYPE TYPE, " +
-													 " '' COMMENT " +
-													 " FROM INFORMATION_SCHEMA.STATISTICS  WHERE 1=1 ";
+																				" '' INDEX_CATALOG, " +
+																				" INDEX_SCHEMA,    " +
+																				" INDEX_NAME, " +
+																				" TABLE_NAME, " +
+																				" (case NON_UNIQUE " +
+																				"	when 0 then TRUE " +
+																				"  else FALSE " +
+																				" 	  end) as 'UNIQUE', " +
+																				" (case INDEX_NAME " +
+																				"  When 'PRIMARY' then TRUE " +
+																				" else FALSE " +
+																				" end) as 'PRIMARY', " +
+																		 " INDEX_TYPE TYPE, " +
+																		 " '' COMMENT " +
+																		 " FROM INFORMATION_SCHEMA.STATISTICS  WHERE TABLE_SCHEMA='" + m_connection.Database + "' ";
 
 								for (int i = 0; i < args.Length; i++)
 								{
@@ -628,9 +620,6 @@ namespace MySqlConnector.Core
 										{
 										case 0:
 												command.CommandText += " and TABLE_CATALOG='" + args[i] + "'";
-												break;
-										case 1:
-												command.CommandText += " and TABLE_SCHEMA='" + args[i] + "'";
 												break;
 										case 2:
 												command.CommandText += " and TABLE_NAME='" + args[i] + "'";
@@ -672,269 +661,269 @@ namespace MySqlConnector.Core
 						// select word from information_schema.keywords where reserved = 1; on MySQL Server 8.0.12
 						var reservedWords = new[]
 						{
-				"ACCESSIBLE",
-				"ADD",
-				"ALL",
-				"ALTER",
-				"ANALYZE",
-				"AND",
-				"AS",
-				"ASC",
-				"ASENSITIVE",
-				"BEFORE",
-				"BETWEEN",
-				"BIGINT",
-				"BINARY",
-				"BLOB",
-				"BOTH",
-				"BY",
-				"CALL",
-				"CASCADE",
-				"CASE",
-				"CHANGE",
-				"CHAR",
-				"CHARACTER",
-				"CHECK",
-				"COLLATE",
-				"COLUMN",
-				"CONDITION",
-				"CONSTRAINT",
-				"CONTINUE",
-				"CONVERT",
-				"CREATE",
-				"CROSS",
-				"CUBE",
-				"CUME_DIST",
-				"CURRENT_DATE",
-				"CURRENT_TIME",
-				"CURRENT_TIMESTAMP",
-				"CURRENT_USER",
-				"CURSOR",
-				"DATABASE",
-				"DATABASES",
-				"DAY_HOUR",
-				"DAY_MICROSECOND",
-				"DAY_MINUTE",
-				"DAY_SECOND",
-				"DEC",
-				"DECIMAL",
-				"DECLARE",
-				"DEFAULT",
-				"DELAYED",
-				"DELETE",
-				"DENSE_RANK",
-				"DESC",
-				"DESCRIBE",
-				"DETERMINISTIC",
-				"DISTINCT",
-				"DISTINCTROW",
-				"DIV",
-				"DOUBLE",
-				"DROP",
-				"DUAL",
-				"EACH",
-				"ELSE",
-				"ELSEIF",
-				"EMPTY",
-				"ENCLOSED",
-				"ESCAPED",
-				"EXCEPT",
-				"EXISTS",
-				"EXIT",
-				"EXPLAIN",
-				"FALSE",
-				"FETCH",
-				"FIRST_VALUE",
-				"FLOAT",
-				"FLOAT4",
-				"FLOAT8",
-				"FOR",
-				"FORCE",
-				"FOREIGN",
-				"FROM",
-				"FULLTEXT",
-				"FUNCTION",
-				"GENERATED",
-				"GET",
-				"GRANT",
-				"GROUP",
-				"GROUPING",
-				"GROUPS",
-				"HAVING",
-				"HIGH_PRIORITY",
-				"HOUR_MICROSECOND",
-				"HOUR_MINUTE",
-				"HOUR_SECOND",
-				"IF",
-				"IGNORE",
-				"IN",
-				"INDEX",
-				"INFILE",
-				"INNER",
-				"INOUT",
-				"INSENSITIVE",
-				"INSERT",
-				"INT",
-				"INT1",
-				"INT2",
-				"INT3",
-				"INT4",
-				"INT8",
-				"INTEGER",
-				"INTERVAL",
-				"INTO",
-				"IO_AFTER_GTIDS",
-				"IO_BEFORE_GTIDS",
-				"IS",
-				"ITERATE",
-				"JOIN",
-				"JSON_TABLE",
-				"KEY",
-				"KEYS",
-				"KILL",
-				"LAG",
-				"LAST_VALUE",
-				"LEAD",
-				"LEADING",
-				"LEAVE",
-				"LEFT",
-				"LIKE",
-				"LIMIT",
-				"LINEAR",
-				"LINES",
-				"LOAD",
-				"LOCALTIME",
-				"LOCALTIMESTAMP",
-				"LOCK",
-				"LONG",
-				"LONGBLOB",
-				"LONGTEXT",
-				"LOOP",
-				"LOW_PRIORITY",
-				"MASTER_BIND",
-				"MASTER_SSL_VERIFY_SERVER_CERT",
-				"MATCH",
-				"MAXVALUE",
-				"MEDIUMBLOB",
-				"MEDIUMINT",
-				"MEDIUMTEXT",
-				"MIDDLEINT",
-				"MINUTE_MICROSECOND",
-				"MINUTE_SECOND",
-				"MOD",
-				"MODIFIES",
-				"NATURAL",
-				"NOT",
-				"NO_WRITE_TO_BINLOG",
-				"NTH_VALUE",
-				"NTILE",
-				"NULL",
-				"NUMERIC",
-				"OF",
-				"ON",
-				"OPTIMIZE",
-				"OPTIMIZER_COSTS",
-				"OPTION",
-				"OPTIONALLY",
-				"OR",
-				"ORDER",
-				"OUT",
-				"OUTER",
-				"OUTFILE",
-				"OVER",
-				"PARTITION",
-				"PERCENT_RANK",
-				"PERSIST",
-				"PERSIST_ONLY",
-				"PRECISION",
-				"PRIMARY",
-				"PROCEDURE",
-				"PURGE",
-				"RANGE",
-				"RANK",
-				"READ",
-				"READS",
-				"READ_WRITE",
-				"REAL",
-				"RECURSIVE",
-				"REFERENCES",
-				"REGEXP",
-				"RELEASE",
-				"RENAME",
-				"REPEAT",
-				"REPLACE",
-				"REQUIRE",
-				"RESIGNAL",
-				"RESTRICT",
-				"RETURN",
-				"REVOKE",
-				"RIGHT",
-				"RLIKE",
-				"ROW",
-				"ROWS",
-				"ROW_NUMBER",
-				"SCHEMA",
-				"SCHEMAS",
-				"SECOND_MICROSECOND",
-				"SELECT",
-				"SENSITIVE",
-				"SEPARATOR",
-				"SET",
-				"SHOW",
-				"SIGNAL",
-				"SMALLINT",
-				"SPATIAL",
-				"SPECIFIC",
-				"SQL",
-				"SQLEXCEPTION",
-				"SQLSTATE",
-				"SQLWARNING",
-				"SQL_BIG_RESULT",
-				"SQL_CALC_FOUND_ROWS",
-				"SQL_SMALL_RESULT",
-				"SSL",
-				"STARTING",
-				"STORED",
-				"STRAIGHT_JOIN",
-				"SYSTEM",
-				"TABLE",
-				"TERMINATED",
-				"THEN",
-				"TINYBLOB",
-				"TINYINT",
-				"TINYTEXT",
-				"TO",
-				"TRAILING",
-				"TRIGGER",
-				"TRUE",
-				"UNDO",
-				"UNION",
-				"UNIQUE",
-				"UNLOCK",
-				"UNSIGNED",
-				"UPDATE",
-				"USAGE",
-				"USE",
-				"USING",
-				"UTC_DATE",
-				"UTC_TIME",
-				"UTC_TIMESTAMP",
-				"VALUES",
-				"VARBINARY",
-				"VARCHAR",
-				"VARCHARACTER",
-				"VARYING",
-				"VIRTUAL",
-				"WHEN",
-				"WHERE",
-				"WHILE",
-				"WINDOW",
-				"WITH",
-				"WRITE",
-				"XOR",
-				"YEAR_MONTH",
-				"ZEROFILL",
-			};
+								"ACCESSIBLE",
+								"ADD",
+								"ALL",
+								"ALTER",
+								"ANALYZE",
+								"AND",
+								"AS",
+								"ASC",
+								"ASENSITIVE",
+								"BEFORE",
+								"BETWEEN",
+								"BIGINT",
+								"BINARY",
+								"BLOB",
+								"BOTH",
+								"BY",
+								"CALL",
+								"CASCADE",
+								"CASE",
+								"CHANGE",
+								"CHAR",
+								"CHARACTER",
+								"CHECK",
+								"COLLATE",
+								"COLUMN",
+								"CONDITION",
+								"CONSTRAINT",
+								"CONTINUE",
+								"CONVERT",
+								"CREATE",
+								"CROSS",
+								"CUBE",
+								"CUME_DIST",
+								"CURRENT_DATE",
+								"CURRENT_TIME",
+								"CURRENT_TIMESTAMP",
+								"CURRENT_USER",
+								"CURSOR",
+								"DATABASE",
+								"DATABASES",
+								"DAY_HOUR",
+								"DAY_MICROSECOND",
+								"DAY_MINUTE",
+								"DAY_SECOND",
+								"DEC",
+								"DECIMAL",
+								"DECLARE",
+								"DEFAULT",
+								"DELAYED",
+								"DELETE",
+								"DENSE_RANK",
+								"DESC",
+								"DESCRIBE",
+								"DETERMINISTIC",
+								"DISTINCT",
+								"DISTINCTROW",
+								"DIV",
+								"DOUBLE",
+								"DROP",
+								"DUAL",
+								"EACH",
+								"ELSE",
+								"ELSEIF",
+								"EMPTY",
+								"ENCLOSED",
+								"ESCAPED",
+								"EXCEPT",
+								"EXISTS",
+								"EXIT",
+								"EXPLAIN",
+								"FALSE",
+								"FETCH",
+								"FIRST_VALUE",
+								"FLOAT",
+								"FLOAT4",
+								"FLOAT8",
+								"FOR",
+								"FORCE",
+								"FOREIGN",
+								"FROM",
+								"FULLTEXT",
+								"FUNCTION",
+								"GENERATED",
+								"GET",
+								"GRANT",
+								"GROUP",
+								"GROUPING",
+								"GROUPS",
+								"HAVING",
+								"HIGH_PRIORITY",
+								"HOUR_MICROSECOND",
+								"HOUR_MINUTE",
+								"HOUR_SECOND",
+								"IF",
+								"IGNORE",
+								"IN",
+								"INDEX",
+								"INFILE",
+								"INNER",
+								"INOUT",
+								"INSENSITIVE",
+								"INSERT",
+								"INT",
+								"INT1",
+								"INT2",
+								"INT3",
+								"INT4",
+								"INT8",
+								"INTEGER",
+								"INTERVAL",
+								"INTO",
+								"IO_AFTER_GTIDS",
+								"IO_BEFORE_GTIDS",
+								"IS",
+								"ITERATE",
+								"JOIN",
+								"JSON_TABLE",
+								"KEY",
+								"KEYS",
+								"KILL",
+								"LAG",
+								"LAST_VALUE",
+								"LEAD",
+								"LEADING",
+								"LEAVE",
+								"LEFT",
+								"LIKE",
+								"LIMIT",
+								"LINEAR",
+								"LINES",
+								"LOAD",
+								"LOCALTIME",
+								"LOCALTIMESTAMP",
+								"LOCK",
+								"LONG",
+								"LONGBLOB",
+								"LONGTEXT",
+								"LOOP",
+								"LOW_PRIORITY",
+								"MASTER_BIND",
+								"MASTER_SSL_VERIFY_SERVER_CERT",
+								"MATCH",
+								"MAXVALUE",
+								"MEDIUMBLOB",
+								"MEDIUMINT",
+								"MEDIUMTEXT",
+								"MIDDLEINT",
+								"MINUTE_MICROSECOND",
+								"MINUTE_SECOND",
+								"MOD",
+								"MODIFIES",
+								"NATURAL",
+								"NOT",
+								"NO_WRITE_TO_BINLOG",
+								"NTH_VALUE",
+								"NTILE",
+								"NULL",
+								"NUMERIC",
+								"OF",
+								"ON",
+								"OPTIMIZE",
+								"OPTIMIZER_COSTS",
+								"OPTION",
+								"OPTIONALLY",
+								"OR",
+								"ORDER",
+								"OUT",
+								"OUTER",
+								"OUTFILE",
+								"OVER",
+								"PARTITION",
+								"PERCENT_RANK",
+								"PERSIST",
+								"PERSIST_ONLY",
+								"PRECISION",
+								"PRIMARY",
+								"PROCEDURE",
+								"PURGE",
+								"RANGE",
+								"RANK",
+								"READ",
+								"READS",
+								"READ_WRITE",
+								"REAL",
+								"RECURSIVE",
+								"REFERENCES",
+								"REGEXP",
+								"RELEASE",
+								"RENAME",
+								"REPEAT",
+								"REPLACE",
+								"REQUIRE",
+								"RESIGNAL",
+								"RESTRICT",
+								"RETURN",
+								"REVOKE",
+								"RIGHT",
+								"RLIKE",
+								"ROW",
+								"ROWS",
+								"ROW_NUMBER",
+								"SCHEMA",
+								"SCHEMAS",
+								"SECOND_MICROSECOND",
+								"SELECT",
+								"SENSITIVE",
+								"SEPARATOR",
+								"SET",
+								"SHOW",
+								"SIGNAL",
+								"SMALLINT",
+								"SPATIAL",
+								"SPECIFIC",
+								"SQL",
+								"SQLEXCEPTION",
+								"SQLSTATE",
+								"SQLWARNING",
+								"SQL_BIG_RESULT",
+								"SQL_CALC_FOUND_ROWS",
+								"SQL_SMALL_RESULT",
+								"SSL",
+								"STARTING",
+								"STORED",
+								"STRAIGHT_JOIN",
+								"SYSTEM",
+								"TABLE",
+								"TERMINATED",
+								"THEN",
+								"TINYBLOB",
+								"TINYINT",
+								"TINYTEXT",
+								"TO",
+								"TRAILING",
+								"TRIGGER",
+								"TRUE",
+								"UNDO",
+								"UNION",
+								"UNIQUE",
+								"UNLOCK",
+								"UNSIGNED",
+								"UPDATE",
+								"USAGE",
+								"USE",
+								"USING",
+								"UTC_DATE",
+								"UTC_TIME",
+								"UTC_TIMESTAMP",
+								"VALUES",
+								"VARBINARY",
+								"VARCHAR",
+								"VARCHARACTER",
+								"VARYING",
+								"VIRTUAL",
+								"WHEN",
+								"WHERE",
+								"WHILE",
+								"WINDOW",
+								"WITH",
+								"WRITE",
+								"XOR",
+								"YEAR_MONTH",
+								"ZEROFILL",
+						};
 						foreach (string word in reservedWords)
 								dataTable.Rows.Add(word);
 				}
